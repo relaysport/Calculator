@@ -1,0 +1,28 @@
+main>.container {
+    padding: 60px 15px 0;
+}
+
+.hidden {
+    display: none;
+}
+
+.CADataContainer {
+    padding: 60px 15px 0;
+}
+
+.big-icon {
+    font-size: 150px;
+}
+
+.custombackgroundcolor {
+    background-color: #0EBFE9;
+}
+
+.customtextcolor {
+    color: #0EBFE9;
+    ;
+}
+
+.notbold {
+    font-weight: normal
+}
