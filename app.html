@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>College Safety</title>
+    <title>Mortgage Calculator | My Program</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -13,7 +13,7 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 
-<body class="CADataContainer">
+<body class="container">
     <nav class="navbar navbar-expand-md navbar-dark fixed-top custombackgroundcolor">
         <div class="container-fluid">
             <a class="navbar-brand" href="/home.html"><img src="img/favicon.ico" alt=""></a>
@@ -40,9 +40,9 @@
         </div>
     </nav>
     <main class="flex-shrink-4">
-        <div class="container">
+        <div class="container mt-5">
             <div class="row">
-                <div class="col-sm-4 border p-5">
+                <div class="col-sm-4 border p-4">
                     <label for="basic-url" class="form-label">Current loan balance</label>
                     <div class="input-group mb-3">
                         <span class="input-group-text">Insert amount in dollars</span>
@@ -64,50 +64,50 @@
                     </button>
                 </div>
                 <div class="col-sm-8 border p-3">
-<div class="row">
-                    <h1 class="text-center">Your monthly payments</h1>
-</div>
-<div class="row">
-                    <h2 id="topPayment" class="text-center customtextcolor"></h2>
+                    <div class="row">
+                        <div class="col">
 
-</div>
-                    <h4 >Total principal
-                        
-                        <span id="topPrincipal" class="text-end">hi</span></h4>
+                            <h1 class="text-center mt">Your monthly payments</h1>
 
-                    <h4 class="align-bottom">Total interest 
-                        
-                        <span id="topInterest" class="text-end"></span></h4>
+                            <h1 style=font-size:450% id="topPayment" class="text-center customtextcolor my-5">$0.00</h1>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col">
+                            <h4>Total principal
 
-                    <h4 class="align-bottom">Total cost 
-                        
-                        <span id="topCost" class="text-end"></span></h4>
-                       
-                        
+                                <span id="topPrincipal" class="float-end">$0.00</span></h4>
 
+                            <h4>Total interest
+
+                                <span id="topInterest" class="float-end">$0.00</span></h4>
+
+                            <h4>Total cost
+
+                                <span id="topCost" class="float-end">$0.00</span></h4>
+                        </div>
+                    </div>
                 </div>
+                    <div class="col-sm-12">
+                        <table id="data" class="table table-bordered border-1 my-3">
+
+                            <thead>
+                                <th>Month</th>
+                                <th>Payment amount</th>
+                                <th>Principal paid this month</th>
+                                <th>Interest paid this month</th>
+                                <th>Total interest</th>
+                                <th>Remaining balance</th>
+                            </thead>
+
+                            <tbody id="calculatorBody">
+
+                            </tbody>
+
+                        </table>
+                    </div>
             </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <table id="data" class="table table-bordered border-1 my-3">
-
-                        <thead>
-                            <th>Month</th>
-                            <th>Payment amount</th>
-                            <th>Principal paid this month</th>
-                            <th>Interest paid this month</th>
-                            <th>Total interest</th>
-                            <th>Remaining balance</th>
-                        </thead>
-
-                        <tbody id="calculatorBody">
-
-                        </tbody>
-
-                    </table>
-                </div>
             </div>
-        </div>
     </main>
     <template id="calculatorTemplate">
         <tr>

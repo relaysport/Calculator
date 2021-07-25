@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en" class="h-100">
+
+<head>
+    <title>Mortgage Calculator | My Code</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/css/prism.css">
+    <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!--- This is the CSS for basic and branded Font Awesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body class="d-flex flex-column h-100">
+
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top custombackgroundcolor">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/code.html"><img src="img/favicon.ico" alt=""></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/home.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/app.html">My Program</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/code.html">My Code</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about.html">About Me</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-shrink-0">
+        <div class="container col-xxl-8 px-4 py-5 mt-5">
+            <h1 class="customtextcolor">The Code</h1>
+            <hr style="margin-top: 0;height:2px;border-width:0;color:gray;background-color:gray">
+            <div class="row">
+                <div class="col-8" id="codeCol">
+                    <pre><code class="language-javascript line-numbers">    
+function calcPayment(loanAmount, rate, term) {
+    return (loanAmount * rate) / (1 - Math.pow(1 + rate, -term));
+}
+
+function calcInterest(balance, rate) {
+    return balance * rate;
+}
+
+function calcRate() {
+    let rate = parseFloat(document.getElementById("interestRate").value);
+    return rate = rate / 1200;
+}
+
+function buildSchedule() {
+    let loanAmount = Number(document.getElementById("loanBalance").value);
+    let term = parseInt(document.getElementById("paymentTimeline").value);
+    let rate = calcRate();
+
+    let payment = calcPayment(loanAmount, rate, term);
+    let payments = getPayments(loanAmount, rate, term, payment);
+
+    displayData(payments, loanAmount, payment);
+}
+
+function getPayments(loanAmount, rate, term, payment) {
+
+    let payments = [];
+
+    let balance = loanAmount;
+    let totalInterest = 0;
+    let monthlyInterest = 0;
+    let monthlyPrincipal = 0;
+    let monthlyTotalInterest = 0;
+
+    for (month = 1; month <= term; month++) {
+        monthlyInterest = calcInterest(balance, rate);
+        totalInterest += monthlyInterest;
+        monthlyPrincipal = payment - monthlyInterest;
+        balance = Math.abs(balance - monthlyPrincipal);
+
+        let curPayment = {
+            month: month,
+            payment: payment,
+            principal: monthlyPrincipal,
+            interest: monthlyInterest,
+            totalInterest: totalInterest,
+            balance: balance
+        }
+
+        payments.push(curPayment);
+
+    }
+
+    return payments;
+
+}
+
+function displayData(payments, loanAmount, payment) {
+    let tableBody = document.getElementById("calculatorBody");
+    let template = document.getElementById("calculatorTemplate");
+    tableBody.innerHTML = "";
+
+    let currencyFormatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    });
+
+    for (let i = 0; i < payments.length; i++) {
+        payRow = template.content.cloneNode(true);
+        paycols = payRow.querySelectorAll("td");
+
+        paycols[0].textContent = payments[i].month;
+
+        paycols[1].textContent = currencyFormatter.format(payments[i].payment.toFixed(2));
+        paycols[2].textContent = currencyFormatter.format(payments[i].principal.toFixed(2));
+        paycols[3].textContent = currencyFormatter.format(payments[i].interest.toFixed(2));
+        paycols[4].textContent = currencyFormatter.format(payments[i].totalInterest.toFixed(2));
+        paycols[5].textContent = currencyFormatter.format(payments[i].balance.toFixed(2));
+
+        tableBody.appendChild(payRow);
+    }
+
+    // let declarations used for manipulation in the following id attachments
+
+    let totalInterest = payments[payments.length - 1].totalInterest;
+    let totalCost = Number(loanAmount) + totalInterest;
+
+    // proper values assigned to ids for Total principal, Total interest, and Total cost on the app page
+
+    document.getElementById("topPayment").innerText = "$" + payment.toFixed(2);
+    document.getElementById("topInterest").innerText = "$" + totalInterest.toFixed(2);
+    document.getElementById("topPrincipal").innerText = "$" + loanAmount.toFixed(2);
+    document.getElementById("topCost").innerText = "$" + totalCost.toFixed(2);
+
+}
+                </code>
+            </pre>
+                </div>
+                <div class="col" id="explainCol">
+                    <h1 class="customtextcolor">calcPayment</h1>
+                    <p>calcPayment uses the standard monthly payment formula using the user's inputs for the starting
+                        loan amount, interest rate, and length of time they'll be paying over.
+                    </p>
+
+                    <h1 class="customtextcolor">calcInterest</h1>
+                    <p>Interest payment varies depending on the current loan balance. calcInterest is called to
+                        determine the interest each month as the remaining principal goes down.
+                    </p>
+
+                    <h1 class="customtextcolor">calcRate</h1>
+                    <p>Help
+                    </p>
+
+                    <h1 class="customtextcolor">buildSchedule</h1>
+                    <p>The function buildSchedule creates the variables loanAmount, payment, and payments are the
+                        variables used for display. They are passed on to the displayData function to be shown on the
+                        webpage.
+                    </p>
+
+                    <h1 class="customtextcolor">getPayments</h1>
+                    <p>getPayments uses a for loop that runs for the entire period of payment with formula for every
+                        column in my table. Each formula uses the current balance to create accurate information for the
+                        table row, pushing each new object onto the payments array, which is displayed on the page.
+                    </p>
+
+                    <h1 class="customtextcolor">displayData</h1>
+                    <p>getPayments uses a for loop that runs for the entire period of payment with formula for every
+                        column in my table. Each formula uses the current balance to create accurate information for the
+                        table row, pushing each new object onto the payments array, which is displayed on the page.
+                    </p>
+
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
+    </script>
+    <script src="/js/prism.js"></script>
+    <script src="/js/site.js"></script>
+    <script src="/js/all.min.js"></script>
+
+    <!-- FontAwesome JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
+        integrity="sha512-RXf+QSDCUQs5uwRKaDoXt55jygZZm2V++WUZduaU/Ui/9EGp3f/2KZVahFZBKGH0s774sd3HmrhUy+SgOFQLVQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+</html>
